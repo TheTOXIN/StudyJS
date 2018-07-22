@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  <meta charset="utf-8">
+  <title>JQuery_7</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    function show() {
+      var text = $("#text").val();
+      var checkbox = $("#checkbox").val();
+      console.log(checkbox)
+      if (checkbox) {
+        text = "BIG " + text;
+      } else {
+        text = "SMALL " + text;
+      }
+      alert(text);
+    }
+  </script>
+</head>
+<body>
+  <div id="div">
+    <input type="text" name="text" id="text">
+    <input type="checkbox" name="checkbox" id="checkbox">
+    <input type="button" onclick="return show()" value="SHOW">
+  </div>
+</body> 
+</html>

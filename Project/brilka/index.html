@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  <meta charset="utf-8">
+  <title>JQuery_10</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style type="text/css">
+    p {
+      font-size: 20px;
+      margin-left: 150px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="message" style="display: none">ЖМЯКНИ НА МЕНЯ</h1>
+  <img src="http://gabdrahimov.ru/img/html/img/tim-berners-lee.jpg" alt="IMG" title="img" id="img" width="400">
+
+  <br>
+
+  <a href="#" id="show" onclick="return false" style="font-size: 50px"> 
+    КТО ТЫ ?
+  </a>
+
+  <a href="#" id="hide" style="display: none; font-size: 50px" onclick="return false"> 
+    ЯСНО ПОНЯТНО 
+  </a>
+
+  <div id="comments" style="display: none">
+    <p>Я</p>
+    <p>СОЗДАТЕЛЬ</p>
+    <p>ХТМЭЛ</p>
+  </div>
+
+  <script type="text/javascript">
+    function hideComments() {
+      $("#comments").fadeOut(500, function() {
+        $("#hide").hide();
+        $("#show").show();
+      });
+    }
+
+    function showComments() {
+      $("#comments").slideDown(500, function() {
+        $("#hide").show();
+        $("#show").hide();
+      });
+    }
+
+    function animateImg(event) {
+      $(event.target).parent().css("text-align", "center");
+      $(event.target).animate({
+        width: $(event.target).width() * 10,
+        height: $(event.target).height() * 10
+      }, 10000);
+      alert("НУ УСЕ ТОБИ ПЕЗТА");
+    }
+
+    function showMessage() {
+      $("#message").fadeIn(300).slideDown(300);
+    }
+
+    function hideMessage() {
+      $("#message").fadeOut(300).slideUp(300);
+    }
+
+    function getNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) - min);
+    }
+
+    function randomColor() {
+      var ps = $("p");
+      for (var i = 0; i < ps.length; i++) {
+        ps.get(i).style.color = 
+          "#" +
+          getNumber(0, 9) +
+          getNumber(0, 9) +
+          getNumber(0, 9) +
+          getNumber(0, 9) +
+          getNumber(0, 9) +
+          getNumber(0, 9);
+      }
+    }
+
+    $(document).ready(function() {
+      $("#hide").bind("click", hideComments);
+      $("#show").bind("click", showComments);
+      $("#img").bind("click", animateImg);
+      $("#img").hover(showMessage, hideMessage);
+      $("a").click(randomColor);
+    });
+  </script>
+</body> 
+</html>

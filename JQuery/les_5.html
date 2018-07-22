@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JQuery_5 </title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <div id="div" style="background-color: gray">
+    BLOCK
+    <p>paragrapth</p>
+  </div>
+  
+  <script type="text/javascript">
+    alert($("#div").html());
+    alert($("#div").text());
+
+    $("#div").html("<p>NEW paragrapth</p>");
+
+    var block = $("#div").clone();
+    
+    block.html("<p>CLONE paragrapth</p>");
+    block.css("color", "white");
+    
+    $("body").append(block);
+  </script>
+</body> 
+</html>

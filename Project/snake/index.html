@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>-=SNAKE=-</title>
+	<style>
+		html, body {
+			padding: 0; 
+			margin: 0; 
+			overflow:  hidden;
+		}
+		body {
+			padding: 10px;
+		}
+		canvas {
+			background: black;
+			margin: all;
+			display: block;
+		}
+		p {
+			text-align: center;
+			font-size: 32px;
+			font-family: arial;
+		}
+		.joy {
+			text-align: center;	
+		}
+	</style>
+</head>
+<body>
+	<canvas id="mc", width="960", height="900"></canvas>
+	<p class="joy">
+		<img src="https://madfanboy.com/sites/default/files/users/t2o/d-pad-560x560.png">
+	</p>
+	<script>
+		
+	window.onload = function() {
+		document.addEventListener('keydown', changeDirectoin);
+		setInterval(loop, 1000 / 60);
+	}
+
+	var
+		canv              = document.getElementById('mc'),
+		ctx               = canv.getContext('2d'),
+		gs = fkp          = false,
+		speed = baseSpeed = 3,
+		xv = yv           = 0,
+		px                = ~~(canv.width) / 2,
+		py  	          = ~~(canv.height) / 2,
+		pw = ph           = 20,
+		aw = ah           = 20,
+		apples            = [],
+		trail             = [],
+		tail              = 100,
+		tailSafeZone      = 20,
+		cooldown          = false,
+		score             = 0;	
+
+	function loop() {
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0, 0, canv.width, canv.height);
+
+		px += xv;
+		py += yv;
+
+		if (px > canv.width)
+			{px = 0;}
+		if (px + pw < 0)
+			{px = canv.width;}
+		if (py > canv.height)
+			{py = 0;}	
+		if (py + ph < 0)
+			{py = canv.height;}
+
+		ctx.fillStyle = 'lime';
+
+		for (var i = 0; i < trail.length; i++) {
+			ctx.fillStyle = trail[i].color || 'lime';
+			ctx.fillRect(trail[i].x, trail[i].y, pw, ph);
+		}
+
+		trail.push({x: px, y: py, color: ctx.fillStyle});
+
+		if (trail.length > tail) {trail.shift();}
+		if (trail.length > tail) {trail.shift();}
+
+		if (trail.length >= tail && gs) {
+			for (var i = trail.length - tailSafeZone; i >= 0; i--) {
+				if (
+					px < (trail[i].x + pw) &&
+					px + pw > trail[i].x &&
+					py < (trail[i].y + ph) &&
+					py + ph > trail[i].y
+				) {
+					tail = 10;
+					speed = baseSpeed;
+		
+					for (var j = 0; j < trail.length; j++) {
+						trail[j].color = 'red';
+						if (j >= trail.length - tail) {break;}
+					}
+				}
+			}
+		}
+
+		for (var i = 0; i < apples.length; i++) {
+			ctx.fillStyle = apples[i].color;
+			ctx.fillRect(apples[i].x, apples[i].y, aw, ah);
+		}
+
+		for (var i = 0; i < apples.length; i++) {
+			if (
+				px < (apples[i].x + aw) &&
+				px + pw > apples[i].x &&
+				py < (apples[i].y + ah) &&
+				py + ph > apples[i].y
+			) {
+				apples.splice(i, 1);
+				score += 1;
+				tail += 10;
+				speed += .1;
+				spawnApple();
+				break;
+			}
+		}
+
+		ctx.fillStyle = 'white';
+		ctx.font="32px arial";
+		
+		if (gs) {
+			var scoreStr = score.toString();
+			ctx.fillText(scoreStr, canv.width / 2 - scoreStr.length / 2 * 32, 40);
+		} else {
+			ctx.fillText("ДОБРО ПОЖАЛОВАТЬ В ГАДЮКУ НАХУЙ БЛЯТЬ", 100, 40);
+		}	
+	}
+
+	function spawnApple() {
+		var 
+			newApple = {
+				x: ~~(Math.random() * canv.width),
+				y: ~~(Math.random() * canv.height),
+				color: rc()
+			};
+
+		if (
+			(newApple.x < aw || newApple.x > canv.width - aw)
+			||
+			(newApple.y < ah || newApple.y > canv.height - ah)
+		)
+		{
+			spawnApple();
+			return;
+		}
+
+		for (var i = 0; i < tail.length; i++) {
+			if (
+				newApple.x < (trail[i].x + pw) &&
+				newApple.x + aw > trail[i].x &&
+				newApple.y < (trail[i].y + ph) &&
+				newApple.y + ah > trail[i].y
+			) {
+				spawnApple();
+				return;
+			}
+		}		
+
+		apples.push(newApple);
+
+		if (apples.length < 3 && ~~(Math.random() * 1000) > 700) {
+			spawnApple();
+		}
+	}
+
+	function rc() {
+		return '#' + ((~~(Math.random() * 255)).toString(16)) 
+				   + ((~~(Math.random() * 255)).toString(16))
+				   + ((~~(Math.random() * 255)).toString(16)); 
+	}
+
+	function startGame(code) {
+		if (!fkp && [37, 38, 39, 40].indexOf(code) > -1) {
+			setTimeout(function() {gs = true;}, 1000);
+			fkp = true;
+			spawnApple();
+		}
+	}
+
+	function changeDirectoin(evt) {
+		var code = evt.keyCode;
+
+		if (cooldown) {return false;}
+
+		startGame(code);
+
+		if (code == 37 && !(xv > 0))//LEFT
+			{xv = -speed; yv = 0;}
+		if (code == 38 && !(yv > 0))//UP
+			{xv = 0; yv = -speed;}
+		if (code == 39 && !(xv < 0))//RIGHT
+			{xv = speed; yv = 0;}
+		if (code == 40 && !(yv < 0))//DOWN
+			{xv = 0; yv = speed;}
+
+		cooldown = true;
+		setTimeout(function() {cooldown = false;}, 100);
+	}
+
+	var initialPoint;
+	var finalPoint;
+	
+	document.addEventListener('touchstart', function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		initialPoint=event.changedTouches[0];
+		startGame(37);
+	}, false);
+	
+	document.addEventListener('touchend', function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+
+		finalPoint=event.changedTouches[0];
+
+		var xAbs = Math.abs(initialPoint.pageX - finalPoint.pageX);
+		var yAbs = Math.abs(initialPoint.pageY - finalPoint.pageY);
+
+		if (xAbs > 20 || yAbs > 20) {
+			if (xAbs > yAbs) {
+				if (finalPoint.pageX < initialPoint.pageX && !(xv > 0)){
+					/*СВАЙП ВЛЕВО*/
+					{xv = -speed; yv = 0;}
+				}
+				else if (!(xv < 0)){
+					/*СВАЙП ВПРАВО*/
+					{xv = speed; yv = 0;}
+				}
+			} else {
+				if (finalPoint.pageY < initialPoint.pageY && !(yv > 0)){
+					/*СВАЙП ВВЕРХ*/
+					{xv = 0; yv = -speed;}
+				}
+				else if (!(yv < 0)) {
+					/*СВАЙП ВНИЗ*/
+					{xv = 0; yv = speed;}
+				}
+			}
+		}
+	}, false);
+
+	</script>
+</body>
+</html>

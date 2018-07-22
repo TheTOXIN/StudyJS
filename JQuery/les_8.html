@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  <meta charset="utf-8">
+  <title>JQuery_8</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <div style="height: 50px; width: 50px; background-color: red"></div>
+  <div style="height: 50px; width: 50px; background-color: green"></div>
+  <div style="height: 50px; width: 50px; background-color: blue"></div>
+
+  <script type="text/javascript">
+    function size(event) {
+      var w = Number(event.target.style.width.substring(0, 
+        event.target.style.width.length - 2));
+      
+      console.log(w);
+
+      event.target.style.width = w + 1 + "px";
+
+      $("p").empty();
+      $("<p>COORD x: - " + event.screenX + ", y: - " + screenY + "</p>").insertAfter("div:last");
+
+      if (w == 60) {
+        $(event.target).unbind();
+        alert("STOP");
+      }
+    }
+
+    $(document).ready(function(){
+      $("div").bind("click", size);
+      $(document).on("click", "p", function() {
+        alert("NO TOUCH THAT");
+      })
+    });    
+  </script>
+</body> 
+</html>

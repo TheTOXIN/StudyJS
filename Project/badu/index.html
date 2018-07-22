@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JQuery</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <h1>БАДУ</h1>
+  <form name="form" id="form">
+    <label for="female">FEMALE</label>
+    <input type="radio" id="female" name="sex" value="female">
+    <label for="male">MALE</label>
+    <input type="radio" id="male" name="sex" value="male">
+    <input type="button" name="done" onclick="return valid()" value="SEND">
+    <br><br>    
+    <span id="message"></span>
+    <img id="img_female" style="display:none" src="https://pp.userapi.com/c1425/u2239544/37563478/x_cc9797fb.jpg">
+    <img id="img_male" style="display:none" src="https://ic.pics.livejournal.com/naturalist/52531445/389140/389140_600.jpg">
+  </form>
+
+  <script type="text/javascript">
+    function valid() {
+      var state = $("input[name='sex']:checked").val();
+      
+      if (!state) return $("#message").html(
+        "<font style='color:red'>CHOOSE SEX</font>"
+      );
+
+      $("#message").hide();
+    
+      if (state == "male") {
+        $("#img_male").show();
+        $("#img_female").hide();
+      }
+      if (state == "female") {
+        $("#img_female").show();
+        $("#img_male").hide();
+      }
+    }
+  </script>
+</body> 
+</html>

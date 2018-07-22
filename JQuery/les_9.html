@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  <meta charset="utf-8">
+  <title>JQuery_9</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <div id="comments">
+    <p>Comment_1</p>
+    <p>Comment_2</p>
+    <p>Comment_3</p>
+  </div>
+
+  <form name="form" id="form" style="display: none" method="post" action="#" onsubmit="return false">
+    <textarea id="textarea" name="comment" cols="30" rows="10"></textarea>
+    <br>
+    <input type="submit" name="send" value="Add..." id="done">
+  </form>
+
+  <a href="#" onclick="return false" id="add">
+    ADD COMMENT
+  </a>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(document).on("click", "#add", function() {
+        var form = $("form[name='form']");
+        form.css("display", "block");
+        $("#add").replaceWith(form); 
+      });
+
+      $(document).on("click", "input[name='send']", function() {
+        var comment = $("textarea[name='comment']").val();
+        alert("PLEASE WAIT...");
+        $("<p>" + comment + "</p>").appendTo("div#comments");
+        $("#textarea").val('');
+      });
+    });     
+  </script>
+</body> 
+</html>

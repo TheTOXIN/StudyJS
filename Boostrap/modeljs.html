@@ -1,0 +1,43 @@
+<!DOCTYPE>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Model_js</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> 
+</head>
+<body>
+	<button class="btn btn-info" data-toggle="modal" data-target="#myModal">
+		WATS UP GAAAYSSS!!!!
+	</button>
+	<div id="myModal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">X</button>
+				</div>
+				<h4 class="model-title text-center">ХУЙ</h4>
+				<div class="modal-body">
+					<img src="https://riki.dotabuff.com/ppa/LNJMA/0bed7497af922cac1a675c4e12c89fe6438aa233">
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger" data-dismiss="modal">FUCK</button>
+				</div>
+			</div> 
+		</div>
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>﻿
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		$("#myModal").modal("show");
+		$("#myModal").on('hidden.bs.modal', function(event) {
+			console.log("OMG")
+		});
+	</script>
+</body>
+</html>
